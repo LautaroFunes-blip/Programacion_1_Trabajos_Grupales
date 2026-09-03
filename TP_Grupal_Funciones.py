@@ -18,7 +18,22 @@ def calcular_factura_final(
 """lo ideal va a ser mantener separado el menu de eleccion y de input del resto de funcinoes
 para que se vea mas limpio y podes organizar mejor todo ademas de facilitar cuando busquemos errores"""
 
+class Validador_financiero:
+    @staticmethod
+    def es_cuit_valido(cuit:str) -> bool:
+        cantidad_numeros=len(cuit)
+        if cuit.isdigit() == True and cantidad_numeros == 11:
+            return(True)
+        else:
+            return(False)
+    @staticmethod
+    def convertir_moneda(monto:float, tasa_cambio:float, comision:float=0.02) -> float:
+        monto_total=monto*tasa_cambio
+        comision_final=monto_total*comision
+        conversion=monto_total-comision_final
+        return(conversion)
 
+"""la segunda funcion ya funcinoa correctamente en los casos solicitados dentro del archivo"""
 
 
 
@@ -48,4 +63,16 @@ while True:
 
         factura_final=calcular_factura_final(monto_base, descuento, envio_prioritario, impuesto=21.0)
         print(factura_final)
-    
+
+    elif numero_ejercicio == 2:
+        while True:
+            cuit=(input('ingrese el numero de cuit'))
+            cuit_valido=Validador_financiero.es_cuit_valido(cuit)
+            if cuit_valido == True:
+                monto=float(input('ingrese la cantidad a cambiar: '))
+                tasa_cambio=float(input('ignrese la tasa de cambio actual: '))
+                conversion=Validador_financiero.convertir_moneda(monto, tasa_cambio, comision=0.02)
+                print(conversion)
+                break
+            elif cuit_valido == False:
+                print('ingrese un cuit valido')
