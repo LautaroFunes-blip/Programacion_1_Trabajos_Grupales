@@ -35,7 +35,29 @@ class Validador_financiero:
 
 """la segunda funcion ya funcinoa correctamente en los casos solicitados dentro del archivo"""
 
+class notificador:
+    def enviar_recibo(self, cliente: str, total: float) -> None:
+        print('funciona correctamente')
 
+class procesar_pago:
+
+    def __init__(self):
+        sefl.notificacion=notificador()
+
+    def procesar_transaccion(self, cliente: str, items: list[dict], descuento_cupon=0.0) -> float:
+        total=0
+        for productos in items:
+            total = total + productos['precio']
+        if descuento_cupon > 0:
+            porcentaje_descuento=(total * descuento_cupon) / 100 
+            total = total - porcentaje_descuento
+        else:
+            print('no hay descuento a calcular')
+        return total
+        self.notificacion.enviar_recibo(cliente, total)
+
+
+"""//MANTENER SEPARADO EL BUCLE DE MENU DEL RESTO DE CODIGO//"""
 
 numero_ejercicio=None
 while True:
@@ -76,3 +98,17 @@ while True:
                 break
             elif cuit_valido == False:
                 print('ingrese un cuit valido')
+
+    elif numero_ejercicio == 3:
+        items= [{"nombre": "Teclado", "precio": 50.0}, {"nombre": "Mouse", "precio": 30.0}]
+        hay_descuento=input('el cliente trae un cupon de descuento?').capitalize()
+        if hay_descuento == 'S' or hay_descuento == 'Si':
+            descuento_cupon=float(input('ingrese el valor del descuento actual'))
+        elif hay_descuento== 'No' or hay_descuento == 'N':
+            descuento_cupon=00.0
+            pass
+        else:
+            print('ignrese una opcion valida')
+        cliente=input('inrgese el nomrbe del cliente para facturacion').capitalize()
+        procesar=procesar_pago()
+        factura_final=procesar.procesar_transaccion(cliente, items, descuento_cupon)
