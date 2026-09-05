@@ -70,6 +70,43 @@ def generar_auditoria_sistema(modulo: str, *mensajes: str, **metadatos) -> str:
         reporte = reporte + clave.upper() + ': ' + str(valor) + '\n'
     return reporte
 
+class calculadora_fitness:
+    @staticmethod
+    def calculadora_imc(peso: float, altura: float):
+        imc=peso/(altura)**2
+        return imc
+
+    @staticmethod
+    def clasificador_nivel(imc: float):
+        if imc < 18.5:
+            estado='bajo peso'
+        elif 18.5 < imc < 25.0:
+            estado='normal'
+        elif 25.0 <= imc: 
+            estado='sobrepeso'
+        return estado
+
+
+
+class Atleta:
+    def __init__(self, nombre, peso, altura):
+        self.nombre=nombre
+        self.peso=peso
+        self.altura=altura
+
+
+    def obtener_reporte(self, recomendacion=False, **metricas) -> str:
+        imc = calculadora_fitness.calculadora_imc(self.peso, self.altura)
+        nivel= calculadora_fitness.clasificador_nivel(imc)
+        reporte = 'Nombre: ' + self.nombre + '\n' + 'IMC: ' + str(imc) + '\n' + 'Nivel: ' + nivel + '\n'
+
+        for clave in metricas:
+            valor = metricas[clave]
+            reporte = reporte + clave.upper() + ': ' + str(valor) + '\n'
+
+        if recomendacion == True:
+            reporte = reporte + 'recomendacion: prueba'
+        return reporte
 
 """//MANTENER SEPARADO EL BUCLE DE MENU DEL RESTO DE CODIGO//"""
 
@@ -151,4 +188,20 @@ while True:
         reporte=generar_auditoria_sistema(modulo, *mensajes, **metadatos)
         print(reporte)
 
-        
+    elif numero_ejercicio == 5:
+        nombre=input('ingrese su nomrbe').capitalize()
+        peso=(float(input('ingrese su peso en kg')))
+        altura=float(input('ingrese su altura'))
+
+        atleta=Atleta(nombre, peso, altura)
+        metricas={}
+        while True:
+            clave = input('ingrese una metrica extra o dejar vacio para continuar')
+            if clave == '':
+                break
+
+            else:
+                valor=input('ingrese el valor de la metrica')
+                metricas[clave]=valor
+
+        reporte=atleta.obtener_reporte(recomendacion=True, **metricas)
