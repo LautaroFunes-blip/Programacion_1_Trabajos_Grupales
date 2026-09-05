@@ -42,7 +42,7 @@ class notificador:
 class procesar_pago:
 
     def __init__(self):
-        sefl.notificacion=notificador()
+        self.notificacion=notificador()
 
     def procesar_transaccion(self, cliente: str, items: list[dict], descuento_cupon=0.0) -> float:
         total=0
@@ -53,8 +53,22 @@ class procesar_pago:
             total = total - porcentaje_descuento
         else:
             print('no hay descuento a calcular')
-        return total
         self.notificacion.enviar_recibo(cliente, total)
+        return total
+
+
+"""tercera funcion terminada"""
+
+def generar_auditoria_sistema(modulo: str, *mensajes: str, **metadatos) -> str:
+    contador= 1
+    reporte= 'MODULO' + ':' + modulo.upper() + '\n'
+    for mensaje in mensajes:
+        reporte= reporte + '[' + str(contador)+ '] ' + mensaje + '\n'
+        contador += 1
+    for clave in metadatos:
+        valor = metadatos[clave]
+        reporte = reporte + clave.upper() + ': ' + str(valor) + '\n'
+    return reporte
 
 
 """//MANTENER SEPARADO EL BUCLE DE MENU DEL RESTO DE CODIGO//"""
@@ -112,3 +126,29 @@ while True:
         cliente=input('inrgese el nomrbe del cliente para facturacion').capitalize()
         procesar=procesar_pago()
         factura_final=procesar.procesar_transaccion(cliente, items, descuento_cupon)
+
+
+    elif numero_ejercicio == 4:
+        agregar=''
+        mensajes=[]
+        metadatos={}
+        modulo=input('ingrese el modulo')
+        while True:
+            mensaje= input('ingrese un mensaje')
+            if mensaje == '':
+                break
+            else:
+                mensajes.append(mensaje)
+        while True:
+            metadato=input('ingrese la clave de metadatos')
+
+            if metadato == '':
+                break
+            else:
+                valor=input('ingrese el valor de los metadatos')
+                metadatos[metadato] = valor
+
+        reporte=generar_auditoria_sistema(modulo, *mensajes, **metadatos)
+        print(reporte)
+
+        
