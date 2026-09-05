@@ -205,3 +205,4 @@ while True:
                 metricas[clave]=valor
 
         reporte=atleta.obtener_reporte(recomendacion=True, **metricas)
+        print(reporte)
