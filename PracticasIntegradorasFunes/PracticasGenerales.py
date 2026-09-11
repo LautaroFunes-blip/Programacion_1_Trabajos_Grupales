@@ -43,5 +43,9 @@ while True:
             ApagarMaquina.apagarMaquina(golosinasPedidas)
             print('adios')
             break
+        else:
+            print('ingrese una opcion valida dentro de las funciones designadas')
     except ValueError:
         print('ingrese una opcion valida dentro de las fuinciones')
+
+        
