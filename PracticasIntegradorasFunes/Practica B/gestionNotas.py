@@ -34,6 +34,16 @@ for alumno in alumnos:
         if notaAlta is None or materia[3]>notaAlta:
             notaAlta= materia[3]
             materiaAlta=materia[0]
+
+    mejorPromedio = None
+    mejorAlumno = None
+
+    for fila in notasFinales:
+        if mejorPromedio is None or fila[1] > mejorPromedio:
+            mejorPromedio = fila[1]
+            mejorAlumno = fila[0]
+
+    print(f'el alumno con el mejor promedio fue {mejorAlumno} con {mejorPromedio}')
     for notas in notasFinales:
         if notas[0] == alumnos[alumno]:
                 notas.append(sum(notasFinalesTemporal)/5)
