@@ -21,7 +21,7 @@ def pedir_golosina(golosinas, empleados, golosinas_pedidas):
                     g[2] -= 1
                     pedir = False
                     
-                    # Registrar pedido
+                   
                     ya_registrada = False
                     for gp in golosinas_pedidas:
                         if gp[0] == codigo:
@@ -69,9 +69,7 @@ def rellenar_golosinas(golosinas, claves_tecnico):
         print("No tiene permiso para ejecutar la función de recarga")
 
 
-# ==========================================
-# PROGRAMA PRINCIPAL
-# ==========================================
+
 golosinas = [
     [1, "KitKat", 20], [2, "Chicles", 50], [3, "Caramelos de Menta", 50],
     [4, "Huevo Kinder", 10], [5, "Chetoos", 10], [6, "Twix", 10],
