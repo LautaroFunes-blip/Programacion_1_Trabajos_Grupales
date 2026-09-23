@@ -1,0 +1,3 @@
+Juan;Pérez;53365;8
+María;López;55654;10
+Pablo;Gómez;58999;6 
