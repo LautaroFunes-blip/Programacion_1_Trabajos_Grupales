@@ -319,18 +319,11 @@ if __name__ == "__main__":
     CostoComputadora.main()
 
 #Ejercicio 5
-# ==========================================
-# 1. CLASE HABITACIÓN
-# ==========================================
 class Habitacion:
     def __init__(self, nombre: str, metrosCuadrados: float):
         self.nombre = nombre
         self.metrosCuadrados = metrosCuadrados
 
-
-# ==========================================
-# 2. CLASE VIVIENDA
-# ==========================================
 class Vivienda:
     def __init__(self, calle: str, numero: int, manzana: str, nroCasa: int, superficieTerreno: float):
         self.calle = calle
@@ -338,73 +331,61 @@ class Vivienda:
         self.manzana = manzana
         self.nroCasa = nroCasa
         self.superficieTerreno = superficieTerreno
-        self.habitaciones = []  # Lista de objetos Habitacion
+        self.habitaciones = []
 
-    def agregar_habitacion(self, habitacion: Habitacion):
-        self.habitaciones.append(habitacion)
-
-    # Punto c) Cálculo de metros cubiertos con validación de excepción
     def getMetrosCuadradosCubiertos(self) -> float:
-        total_cubierto = sum(h.metrosCuadrados for h in self.habitaciones)
-        
-        # Validación solicitada: No puede ser mayor que la superficie del terreno
-        if total_cubierto > self.superficieTerreno:
+        total = sum(h.metrosCuadrados for h in self.habitaciones)
+        if total > self.superficieTerreno:
             raise Exception("La superficie cubierta no puede ser mayor a la superficie del terreno")
-        
-        return total_cubierto
+        return total
 
-
-# ==========================================
-# 3. CLASE BARRIO
-# ==========================================
 class Barrio:
     def __init__(self, nombre: str, empresaConstructora: str):
         self.nombre = nombre
         self.empresaConstructora = empresaConstructora
-        self.viviendas = []  # Lista de objetos Vivienda
+        viviendas = []
 
-    def agregar_vivienda(self, vivienda: Vivienda):
-        self.viviendas.append(vivienda)
-
-    # Punto a) Superficie total de terreno del barrio
     def getSuperficieTotalTerreno(self) -> float:
         return sum(v.superficieTerreno for v in self.viviendas)
 
-    # Punto b) Superficie total de terreno filtrada por manzana
     def getSuperficieTotalTerrenoXManzana(self, manzana: str) -> float:
         return sum(v.superficieTerreno for v in self.viviendas if v.manzana.upper() == manzana.upper())
 
-    # Punto d) Superficie total cubierta del barrio (reutiliza el método de vivienda)
     def getSuperficieTotalCubierta(self) -> float:
         return sum(v.getMetrosCuadradosCubiertos() for v in self.viviendas)
 
-
-# ==========================================
-# 4. PROGRAMA DE PRUEBA (Punto e)
-# ==========================================
+# --- PROGRAMA PRINCIPAL (A prueba de errores con try-except) ---
 if __name__ == "__main__":
-    # Creamos el Barrio
-    mi_barrio = Barrio("Barrio Los Alamos", "Constructora del Sur S.A.")
-
-    # Creamos Vivienda 1 (Manzana A)
-    vivienda1 = Vivienda("Calle Falsa", 123, "A", 1, 300.0)
-    vivienda1.agregar_habitacion(Habitacion("Living", 30.0))
-    vivienda1.agregar_habitacion(Habitacion("Cocina", 20.0))
-    vivienda1.agregar_habitacion(Habitacion("Dormitorio", 25.0))
-
-    # Creamos Vivienda 2 (Manzana B)
-    vivienda2 = Vivienda("Av. Principal", 456, "B", 12, 250.0)
-    vivienda2.agregar_habitacion(Habitacion("Comedor", 40.0))
-    vivienda2.agregar_habitacion(Habitacion("Baño", 10.0))
-
-    # Asociamos las viviendas al barrio
-    mi_barrio.agregar_vivienda(vivienda1)
-    mi_barrio.agregar_vivienda(vivienda2)
-
-    # Mostramos los resultados de la ejecución de los métodos
-    print(f"=== REPORTE DEL BARRIO: {mi_barrio.nombre} ===")
-    print(f"Empresa Constructora: {mi_barrio.empresaConstructora}")
-    print(f"a) Superficie Total Terreno del Barrio: {mi_barrio.getSuperficieTotalTerreno()} m²")
-    print(f"b) Superficie Terreno Manzana 'A': {mi_barrio.getSuperficieTotalTerrenoXManzana('A')} m²")
-    print(f"d) Superficie Total Cubierta del Barrio: {mi_barrio.getSuperficieTotalCubierta()} m²")
+    barrio = Barrio("Los Olivos", "Constructora SA")
     
+    # Vivienda de prueba inicial
+    v1 = Vivienda("San Martín", 123, "A", 1, 300.0)
+    v1.habitaciones.append(Habitacion("Living", 40.0))
+    v1.habitaciones.append(Habitacion("Cocina", 20.0))
+    barrio.viviendas = [v1]
+
+    while True:
+        print("\n--- MENÚ BARRIO ---")
+        print("1. Ver Superficie Total Terreno (a)")
+        print("2. Ver Superficie Terreno por Manzana (b)")
+        print("3. Ver Superficie Total Cubierta (d)")
+        print("0. Salir")
+        
+        opcion_str = input("Elija opción: ").strip()
+        if not opcion_str.isdigit():
+            print(" Error: Ingrese solo números.")
+            continue
+            
+        opcion = int(opcion_str)
+        if opcion == 0:
+            break
+        elif opcion == 1:
+            print(f"Superficie Total Terreno: {barrio.getSuperficieTotalTerreno()} m²")
+        elif opcion == 2:
+            mza = input("Ingrese la letra de la manzana (ej. A): ").strip()
+            print(f"Superficie Terreno Manzana {mza}: {barrio.getSuperficieTotalTerrenoXManzana(mza)} m²")
+        elif opcion == 3:
+            try:
+                print(f"Superficie Total Cubierta: {barrio.getSuperficieTotalCubierta()} m²")
+            except Exception as e:
+                print(f" Error: {e}")
