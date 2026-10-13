@@ -243,7 +243,7 @@ if __name__ == "__main__":
     MenuRestaurant.main()
 
 #Ejercicio 4
-# Archivo: componente_cpu.py
+
 class ComponenteCPU:
     def __init__(self, componente: str, marca: str, cantidad: int, precio: float):
         self.componente = componente
@@ -354,7 +354,7 @@ class Barrio:
     def getSuperficieTotalCubierta(self) -> float:
         return sum(v.getMetrosCuadradosCubiertos() for v in self.viviendas)
 
-# --- PROGRAMA PRINCIPAL (A prueba de errores con try-except) ---
+# --- PROGRAMA PRINCIPAL---
 if __name__ == "__main__":
     barrio = Barrio("Los Olivos", "Constructora SA")
     
